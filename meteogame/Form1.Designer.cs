@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pPlayer = new System.Windows.Forms.PictureBox();
             this.pGameover = new System.Windows.Forms.PictureBox();
             this.pTitle = new System.Windows.Forms.PictureBox();
@@ -36,6 +37,7 @@
             this.pBase = new System.Windows.Forms.PictureBox();
             this.pMeteor = new System.Windows.Forms.PictureBox();
             this.pBG = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pGameover)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pTitle)).BeginInit();
@@ -93,11 +95,12 @@
             // 
             // pBase
             // 
-            this.pBase.Location = new System.Drawing.Point(33, 44);
+            this.pBase.Location = new System.Drawing.Point(0, 0);
             this.pBase.Name = "pBase";
             this.pBase.Size = new System.Drawing.Size(242, 229);
             this.pBase.TabIndex = 2;
             this.pBase.TabStop = false;
+            this.pBase.Click += new System.EventHandler(this.pBase_Click);
             // 
             // pMeteor
             // 
@@ -116,6 +119,12 @@
             this.pBG.Size = new System.Drawing.Size(191, 143);
             this.pBG.TabIndex = 0;
             this.pBG.TabStop = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 20;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -155,6 +164,7 @@
         private System.Windows.Forms.PictureBox pTitle;
         private System.Windows.Forms.PictureBox pGameover;
         private System.Windows.Forms.PictureBox pPlayer;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
