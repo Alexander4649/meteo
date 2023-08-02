@@ -20,12 +20,16 @@ namespace meteogame
         int[] enX = new int[10]; //隕石の座標
         int[] enY = new int[10];
         Random  rand = new Random();
-        int RR; //隕石の半径
+        //int[] a = new int[3] {40/2, 50/2, 60/2}; //隕石の大きさを配列で
+        int RR;//隕石の半径
+        int[] a = new int[2]{40/2, 70/2};
+
         Boolean hitFlg; // true:当たった
         int ecnt; //爆発演出用
         long msgcnt; //メッセージ用カウンタ
         Boolean titleFlg; //true:タイトル表示中
         long score; //スコア
+        long highscore = 0; //ハイスコア,初回のみ0に
         Font myFont = new Font("Arial", 16);
 
         public Form1()
@@ -57,12 +61,28 @@ namespace meteogame
         {
             PW = 41; //自機の幅
             PH = 51; //自機の高さ
-            RR = 70 / 2; //隕石の半径
-            for(int i = 0; i < 10; i++)
+            //RR = rand.Next(Array.Length);//隕石の半径
+            RR = rand.Next(a[0], a[1]);
+
+            /*
+            for (int i = 0; i < 3; i++)
+            {
+                a[i] = rand.Next(20, 50);
+                RR = a[i];
+            }
+            */
+            //int r2 = rand.Next(0, 3);
+            //RR = a[r2];
+
+            //RR = rand.Next(0,100); //隕石の半径
+
+
+            for (int i = 0; i < 10; i++)
             {
                 enX[i] = rand.Next(1, 450); //隕石の初期配置座標
                 enY[i] = rand.Next(1, 900) - 1000; //落下の間隔にバラつきを持たせる
             }
+
             hitFlg = false; //false:当たっていない
             ecnt = 0;
             msgcnt = 0;
@@ -98,7 +118,10 @@ namespace meteogame
                     gg.DrawImage(pMsg.Image, 110, 190, 271, 26);
                 }
             }
+
+            //スコア・ハイスコア表示    
             gg.DrawString("SCORE: " + score.ToString(), myFont, Brushes.White, 10, 10);
+            gg.DrawString("HIGHSCORE: " + highscore.ToString(), myFont, Brushes.White, 10, 40);
 
             pBase.Image = canvas;
         }
@@ -160,6 +183,12 @@ namespace meteogame
 
             score++;
             gg.DrawString("SCORE: " + score.ToString(), myFont, Brushes.White, 10, 10);
+
+            if (highscore < score)
+            {
+                highscore = score;
+                gg.DrawString(score.ToString()+"★更新中", myFont, Brushes.White, 97, 10);
+            }
 
             pBase.Image = canvas;
             hitCheck(); //当たり判定
