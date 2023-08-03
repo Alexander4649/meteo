@@ -63,6 +63,16 @@ namespace meteogame.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap _200px_公式絵_SP_毒キノコ {
+            get {
+                object obj = ResourceManager.GetObject("200px-公式絵_SP_毒キノコ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap p_bg {
             get {
                 object obj = ResourceManager.GetObject("p_bg", resourceCulture);
@@ -126,6 +136,46 @@ namespace meteogame.Properties {
         internal static System.Drawing.Bitmap p_title {
             get {
                 object obj = ResourceManager.GetObject("p_title", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap slide4_pic1 {
+            get {
+                object obj = ResourceManager.GetObject("slide4-pic1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap slide4_pic11 {
+            get {
+                object obj = ResourceManager.GetObject("slide4-pic11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap タイトルなし {
+            get {
+                object obj = ResourceManager.GetObject("タイトルなし", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap マリオのきのこ {
+            get {
+                object obj = ResourceManager.GetObject("マリオのきのこ", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

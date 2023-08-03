@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pItem = new System.Windows.Forms.PictureBox();
             this.pPlayer = new System.Windows.Forms.PictureBox();
             this.pGameover = new System.Windows.Forms.PictureBox();
             this.pTitle = new System.Windows.Forms.PictureBox();
@@ -37,7 +39,7 @@
             this.pBase = new System.Windows.Forms.PictureBox();
             this.pMeteor = new System.Windows.Forms.PictureBox();
             this.pBG = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pGameover)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pTitle)).BeginInit();
@@ -47,6 +49,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.pMeteor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBG)).BeginInit();
             this.SuspendLayout();
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 20;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // pItem
+            // 
+            this.pItem.Image = global::meteogame.Properties.Resources.タイトルなし;
+            this.pItem.Location = new System.Drawing.Point(189, 302);
+            this.pItem.Name = "pItem";
+            this.pItem.Size = new System.Drawing.Size(77, 63);
+            this.pItem.TabIndex = 8;
+            this.pItem.TabStop = false;
             // 
             // pPlayer
             // 
@@ -120,17 +137,12 @@
             this.pBG.TabIndex = 0;
             this.pBG.TabStop = false;
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 20;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 441);
+            this.Controls.Add(this.pItem);
             this.Controls.Add(this.pPlayer);
             this.Controls.Add(this.pGameover);
             this.Controls.Add(this.pTitle);
@@ -142,6 +154,7 @@
             this.Name = "Form1";
             this.Text = "メテオ";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pGameover)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pTitle)).EndInit();
@@ -165,6 +178,7 @@
         private System.Windows.Forms.PictureBox pGameover;
         private System.Windows.Forms.PictureBox pPlayer;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.PictureBox pItem;
     }
 }
 

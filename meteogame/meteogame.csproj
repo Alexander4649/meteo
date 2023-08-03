@@ -101,5 +101,20 @@
   <ItemGroup>
     <None Include="Resources\p_explosion.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slide4-pic1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\マリオのきのこ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slide4-pic11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\200px-公式絵_SP_毒キノコ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\タイトルなし.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
