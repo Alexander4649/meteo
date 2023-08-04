@@ -25,7 +25,7 @@ namespace meteogame
         int ITM; //アイテムの半径
         Random  rand = new Random();
         Boolean hitFlg; // true:当たった
-        Boolean getFlg; //true:当たった➡ゲットした
+        Boolean[] getFlg; //true:当たった➡ゲットした
         int ecnt; //爆発演出用
         long msgcnt; //メッセージ用カウンタ
         Boolean titleFlg; //true:タイトル表示中
@@ -63,7 +63,7 @@ namespace meteogame
         {
             PW = 41; //自機の幅
             PH = 51; //自機の高さ
-            ITM = 70/2;
+            ITM = 40/2;//アイテムの大きさ
 
             //隕石大きさ・量と落ちてくる場所の指定
             for (int i = 0; i < 10; i++)
@@ -81,7 +81,8 @@ namespace meteogame
             }
 
             hitFlg = false; //false:当たっていない
-            getFlg = false; //false:ゲットしてない
+            //getFlg = false; //false:ゲットしてない
+            getFlg = new bool[] { false, false, false, false, false }; //false:ゲットしてない
             ecnt = 0;
             msgcnt = 0;
             titleFlg = true; //true:タイトル表示中
@@ -103,7 +104,7 @@ namespace meteogame
             //爆発後アイテムをその場所に残す
             for (int i = 0;i < 5; i++)
             {
-                gg.DrawImage(pItem.Image, IMX[i], IMY[i]);
+                gg.DrawImage(pItem.Image, IMX[i], IMY[i], ITM * 2, ITM * 2);
             }
 
             if(ecnt < 16) //16フレームのアニメにする,カウンタと表示する画像の位置を決める役目
@@ -133,10 +134,16 @@ namespace meteogame
         }
 
         //アイテム獲得演出(アイテムを消す)
-        private void playerGetitem()
+        
+        private void playerGetitem(int i)
         {
-            gg.DrawImage(pBG.Image, 0, 0, 480, 320);
-            pBase.Image = canvas;
+            //ヒットしたアイテムのフラグを落とす
+            getFlg[i] = false;
+            // ポイント加算
+            score += 10000;
+            // ヒットしたアイテムの座標を初期化
+            IMX[i] = rand.Next(1, 450);
+            IMY[i] = rand.Next(1, 900) - 1000;
         }
 
         //タイトル表示
@@ -166,9 +173,12 @@ namespace meteogame
                 playerExplosion();
                 return; //自機と隕石が当たった後、この先の処理をしない
             }
-            if (getFlg)
+            for (int i = 0; i < getFlg.Length; i++)
             {
-                playerGetitem();
+                if (getFlg[i])
+                {
+                    playerGetitem(i);
+                }
             }
 
             gg.DrawImage(pBG.Image, 0, 0, 480, 320);
@@ -192,10 +202,10 @@ namespace meteogame
             }
 
             //アイテムの移動
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 IMY[i] += 1; //アイテム落下スペード
-                gg.DrawImage(pItem.Image, IMX[i], IMY[i]); //アイテムアイコン表示
+                gg.DrawImage(pItem.Image, IMX[i], IMY[i], ITM*2, ITM* 2); //アイテムアイコン表示
 
                 if (IMY[i] > pBase.Height)
                 {
@@ -268,7 +278,6 @@ namespace meteogame
                     break; //forから抜ける
                 }
             }
-
             
             for(int i = 0; i < 5; i++)
             {
@@ -277,8 +286,9 @@ namespace meteogame
                 toz = (imx - pcx) * (imx - pcx) + (imy - pcy) * (imy - pcy); //自機とアイテムの距離を算出
                 if(toz < ITM * ITM)
                 {
-                    getFlg = true; //true：アイテムに当たった
-                    break;
+                    //IMY[i] += 10000; //アイテムのY座標を規格外数値にして枠外に出して初期化する(アイテム取得風に見せれる)
+                    //score += 1000; //スコア加算
+                    getFlg[i] = true; //true：アイテムに当たった
                 }
             }
         }
