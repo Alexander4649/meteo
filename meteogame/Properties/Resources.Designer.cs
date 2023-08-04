@@ -163,6 +163,26 @@ namespace meteogame.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap スクリーンショット_2023_08_04_111849 {
+            get {
+                object obj = ResourceManager.GetObject("スクリーンショット 2023-08-04 111849", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap スクリーンショット_2023_08_04_1118491 {
+            get {
+                object obj = ResourceManager.GetObject("スクリーンショット 2023-08-04 1118491", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap タイトルなし {
             get {
                 object obj = ResourceManager.GetObject("タイトルなし", resourceCulture);
@@ -176,6 +196,16 @@ namespace meteogame.Properties {
         internal static System.Drawing.Bitmap マリオのきのこ {
             get {
                 object obj = ResourceManager.GetObject("マリオのきのこ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 弱ビーム {
+            get {
+                object obj = ResourceManager.GetObject("弱ビーム", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

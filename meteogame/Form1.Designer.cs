@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.weakBeam = new System.Windows.Forms.PictureBox();
             this.pItem = new System.Windows.Forms.PictureBox();
             this.pPlayer = new System.Windows.Forms.PictureBox();
             this.pGameover = new System.Windows.Forms.PictureBox();
@@ -39,6 +40,7 @@
             this.pBase = new System.Windows.Forms.PictureBox();
             this.pMeteor = new System.Windows.Forms.PictureBox();
             this.pBG = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.weakBeam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pGameover)).BeginInit();
@@ -55,6 +57,15 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 20;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // weakBeam
+            // 
+            this.weakBeam.Image = global::meteogame.Properties.Resources.スクリーンショット_2023_08_04_1118491;
+            this.weakBeam.Location = new System.Drawing.Point(52, 267);
+            this.weakBeam.Name = "weakBeam";
+            this.weakBeam.Size = new System.Drawing.Size(100, 50);
+            this.weakBeam.TabIndex = 9;
+            this.weakBeam.TabStop = false;
             // 
             // pItem
             // 
@@ -118,6 +129,7 @@
             this.pBase.TabIndex = 2;
             this.pBase.TabStop = false;
             this.pBase.Click += new System.EventHandler(this.pBase_Click);
+            this.pBase.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pBase_MouseClick);
             // 
             // pMeteor
             // 
@@ -142,6 +154,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 441);
+            this.Controls.Add(this.weakBeam);
             this.Controls.Add(this.pItem);
             this.Controls.Add(this.pPlayer);
             this.Controls.Add(this.pGameover);
@@ -154,6 +167,7 @@
             this.Name = "Form1";
             this.Text = "メテオ";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.weakBeam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pGameover)).EndInit();
@@ -179,6 +193,7 @@
         private System.Windows.Forms.PictureBox pPlayer;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pItem;
+        private System.Windows.Forms.PictureBox weakBeam;
     }
 }
 

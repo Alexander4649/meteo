@@ -17,15 +17,21 @@ namespace meteogame
         Graphics gg = Graphics.FromImage(canvas);
         int PW, PH; //自機の幅と高さを変数に
         Point Cpos; //カーソル座標
+        Point Bpos; //ビームのカーソル座標
         int[] enX = new int[10]; //隕石の座標
         int[] enY = new int[10];
         int[] RR = new int[10]; //隕石大きさ
         int[] IMX = new int[5]; //アイテムの座標
         int[] IMY = new int[5];
         int ITM; //アイテムの半径
+        int[] BMX = new int[5]; //ビームの座標
+        int[] BMY = new int[5];
+        int BMW ,BMH; //ビームの幅と高さ
         Random  rand = new Random();
         Boolean hitFlg; // true:当たった
         Boolean[] getFlg; //true:当たった➡ゲットした
+        Boolean weakBeamFlg; //true:ビームを発射した
+        Boolean MteorBreakFlg; //true:隕石とビームが当たった
         int ecnt; //爆発演出用
         long msgcnt; //メッセージ用カウンタ
         Boolean titleFlg; //true:タイトル表示中
@@ -46,6 +52,7 @@ namespace meteogame
             //隠し
             pMeteor.Hide();
             pItem.Hide();
+            weakBeam.Hide();
             pPlayer.Hide();
             pBG.Hide();
             pEXP.Hide();
@@ -64,6 +71,8 @@ namespace meteogame
             PW = 41; //自機の幅
             PH = 51; //自機の高さ
             ITM = 40/2;//アイテムの大きさ
+            BMW = 20; //ビームの幅を20
+            BMH = 10; //ビームの高さを10
 
             //隕石大きさ・量と落ちてくる場所の指定
             for (int i = 0; i < 10; i++)
@@ -81,7 +90,6 @@ namespace meteogame
             }
 
             hitFlg = false; //false:当たっていない
-            //getFlg = false; //false:ゲットしてない
             getFlg = new bool[] { false, false, false, false, false }; //false:ゲットしてない
             ecnt = 0;
             msgcnt = 0;
@@ -134,7 +142,6 @@ namespace meteogame
         }
 
         //アイテム獲得演出(アイテムを消す)
-        
         private void playerGetitem(int i)
         {
             //ヒットしたアイテムのフラグを落とす
@@ -173,13 +180,22 @@ namespace meteogame
                 playerExplosion();
                 return; //自機と隕石が当たった後、この先の処理をしない
             }
-            for (int i = 0; i < getFlg.Length; i++)
+            for (int i = 0; i < getFlg.Length; i++) //getFlgの配列分ループ処理する。今回で言うと5個分
             {
                 if (getFlg[i])
                 {
                     playerGetitem(i);
                 }
             }
+
+            /*　いらないかも
+            if (MteorBreakFlg) //ビームが隕石に当たったら➡ビームフラグがたったら
+            {
+                enY[i] += 10000;//隕石は画面から消える
+                weakBeamFlg = false; //ビームフラグをfalseにして初期化
+            }
+                break; //ビームが画面外へ出たらforから抜ける
+            */
 
             gg.DrawImage(pBG.Image, 0, 0, 480, 320);
 
@@ -193,18 +209,18 @@ namespace meteogame
                 {
                     enY[i] += 7;
                 }
-                gg.DrawImage(pMeteor.Image, enX[i], enY[i], RR[i] * 2, RR[i] * 2); //描画
+                gg.DrawImage(pMeteor.Image, enX[i], enY[i], RR[i] * 2, RR[i] * 2); //描画 RRは半径なので2倍にする
                 if (enY[i] > pBase.Height) //pBase.Height よりも大きいときは、隕石が画面外へ出たことになるので画面の上に戻す処理
                 {
                     enX[i] = rand.Next(1, 450);
                     enY[i] = rand.Next(1, 300) - 400;
                 }
             }
-
+            
             //アイテムの移動
             for (int i = 0; i < 2; i++)
             {
-                IMY[i] += 1; //アイテム落下スペード
+                IMY[i] += 2; //アイテム落下スペード
                 gg.DrawImage(pItem.Image, IMX[i], IMY[i], ITM*2, ITM* 2); //アイテムアイコン表示
 
                 if (IMY[i] > pBase.Height)
@@ -214,6 +230,39 @@ namespace meteogame
                 }
             }
 
+
+            //ビームの移動
+            if (weakBeamFlg)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    BMH -= 1;
+                    gg.DrawImage(weakBeam.Image, Cpos.X, 200, BMW, BMH);
+
+                    //枠外から出たらビームを初期化
+                    if (BMY[i] > pBase.Height)
+                    {
+                        BMX[i] = rand.Next(1, 450);
+                        BMY[i] = rand.Next(1, 300) - 400;
+                    }
+                    break; //枠外から出たらfor文を抜ける== 枠外から出るまで次のビームは打てない
+                }
+                weakBeamFlg = false; //ビーム発射フラグをfalseに
+            }
+
+            //ビームの座標位置 == プレイヤーの位置と同じ ※マウスクリックした時のみ表示させる
+            Bpos = PointToClient(Cursor.Position); //ビームの座標位置をカーソルに合わせる
+
+            if(Bpos.X < 0)
+            {
+                Bpos.X = 0;
+            }
+            if(Bpos.X > ClientSize.Width - BMW)
+            {
+                Bpos.X = ClientSize.Width - BMW;
+            }
+            
+            //自機の座標位置
             Cpos = PointToClient(Cursor.Position);
 
             if(Cpos.X < 0)
@@ -242,7 +291,12 @@ namespace meteogame
             hitCheck(); //当たり判定
         }
 
-        //背景をクリックした時
+        //マウスクリック時にビーム発射フラグを立てる
+        private void pBase_MouseClick(object sender, MouseEventArgs e)
+        {
+            weakBeamFlg = true; //ビーム発射フラグを立てる
+        }
+
         private void pBase_Click(object sender, EventArgs e)
         {
             if (titleFlg)
@@ -267,6 +321,9 @@ namespace meteogame
             int pcy = 220 + (PH / 2);    //自機の中心座標
             int ecx, ecy, dis; //自機と隕石の距離計算用
             int imx, imy, toz; //自機とアイテムの距離計算用
+            //
+
+            //自機と隕石接触
             for (int i = 0; i < 10; i++)
             {
                 ecx = enX[i] + RR[i];
@@ -278,8 +335,9 @@ namespace meteogame
                     break; //forから抜ける
                 }
             }
-            
-            for(int i = 0; i < 5; i++)
+
+            //自機とアイテム接触
+            for (int i = 0; i < 5; i++)
             {
                 imx = IMX[i] + ITM;
                 imy = IMY[i] + ITM;
@@ -289,6 +347,19 @@ namespace meteogame
                     //IMY[i] += 10000; //アイテムのY座標を規格外数値にして枠外に出して初期化する(アイテム取得風に見せれる)
                     //score += 1000; //スコア加算
                     getFlg[i] = true; //true：アイテムに当たった
+                }
+            }
+
+            //ビームと隕石接触
+            for (int i = 0; i < 5; i++)
+            {
+                //imx = IMX[i] + ITM;
+                //imy = IMY[i] + ITM;
+                //toz = (imx - pcx) * (imx - pcx) + (imy - pcy) * (imy - pcy); //自機とアイテムの距離を算出
+                //if (toz < ITM * ITM)
+                {
+                    enY[i] += 10000;//隕石は画面から消える
+                    //weakBeamFlg = false; //ビームフラグをfalseにして初期化
                 }
             }
         }
