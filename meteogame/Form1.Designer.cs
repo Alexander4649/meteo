@@ -55,7 +55,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 20;
+            this.timer1.Interval = 22;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // weakBeam
@@ -80,6 +80,7 @@
             // 
             this.pPlayer.Image = global::meteogame.Properties.Resources.p_player;
             this.pPlayer.Location = new System.Drawing.Point(573, 12);
+            this.pPlayer.Margin = new System.Windows.Forms.Padding(0);
             this.pPlayer.Name = "pPlayer";
             this.pPlayer.Size = new System.Drawing.Size(100, 50);
             this.pPlayer.TabIndex = 7;
