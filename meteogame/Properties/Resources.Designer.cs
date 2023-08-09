@@ -183,6 +183,26 @@ namespace meteogame.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap スター {
+            get {
+                object obj = ResourceManager.GetObject("スター", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap スターー {
+            get {
+                object obj = ResourceManager.GetObject("スターー", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap タイトルなし {
             get {
                 object obj = ResourceManager.GetObject("タイトルなし", resourceCulture);
@@ -206,6 +226,26 @@ namespace meteogame.Properties {
         internal static System.Drawing.Bitmap 弱ビーム {
             get {
                 object obj = ResourceManager.GetObject("弱ビーム", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 貫通 {
+            get {
+                object obj = ResourceManager.GetObject("貫通", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 貫通1 {
+            get {
+                object obj = ResourceManager.GetObject("貫通1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

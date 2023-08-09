@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.strongBeam = new System.Windows.Forms.PictureBox();
+            this.kantsuItem = new System.Windows.Forms.PictureBox();
             this.weakBeam = new System.Windows.Forms.PictureBox();
             this.pItem = new System.Windows.Forms.PictureBox();
             this.pPlayer = new System.Windows.Forms.PictureBox();
@@ -40,6 +42,8 @@
             this.pBase = new System.Windows.Forms.PictureBox();
             this.pMeteor = new System.Windows.Forms.PictureBox();
             this.pBG = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.strongBeam)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kantsuItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weakBeam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).BeginInit();
@@ -58,6 +62,24 @@
             this.timer1.Interval = 22;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // strongBeam
+            // 
+            this.strongBeam.Image = global::meteogame.Properties.Resources.貫通1;
+            this.strongBeam.Location = new System.Drawing.Point(52, 350);
+            this.strongBeam.Name = "strongBeam";
+            this.strongBeam.Size = new System.Drawing.Size(100, 50);
+            this.strongBeam.TabIndex = 11;
+            this.strongBeam.TabStop = false;
+            // 
+            // kantsuItem
+            // 
+            this.kantsuItem.Image = global::meteogame.Properties.Resources.スターー;
+            this.kantsuItem.Location = new System.Drawing.Point(198, 350);
+            this.kantsuItem.Name = "kantsuItem";
+            this.kantsuItem.Size = new System.Drawing.Size(100, 50);
+            this.kantsuItem.TabIndex = 10;
+            this.kantsuItem.TabStop = false;
+            // 
             // weakBeam
             // 
             this.weakBeam.Image = global::meteogame.Properties.Resources.スクリーンショット_2023_08_04_1118491;
@@ -70,7 +92,7 @@
             // pItem
             // 
             this.pItem.Image = global::meteogame.Properties.Resources.タイトルなし;
-            this.pItem.Location = new System.Drawing.Point(189, 302);
+            this.pItem.Location = new System.Drawing.Point(198, 267);
             this.pItem.Name = "pItem";
             this.pItem.Size = new System.Drawing.Size(77, 63);
             this.pItem.TabIndex = 8;
@@ -155,6 +177,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 441);
+            this.Controls.Add(this.strongBeam);
+            this.Controls.Add(this.kantsuItem);
             this.Controls.Add(this.weakBeam);
             this.Controls.Add(this.pItem);
             this.Controls.Add(this.pPlayer);
@@ -168,6 +192,8 @@
             this.Name = "Form1";
             this.Text = "メテオ";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.strongBeam)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kantsuItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weakBeam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pPlayer)).EndInit();
@@ -195,6 +221,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pItem;
         private System.Windows.Forms.PictureBox weakBeam;
+        private System.Windows.Forms.PictureBox kantsuItem;
+        private System.Windows.Forms.PictureBox strongBeam;
     }
 }
 
