@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,12 +19,10 @@ namespace meteogame
         Random rand = new Random();
 
         Point Cpos; //カーソル座標
-        Point Bpos; //ビームのカーソル座標
-
         int PW, PH; //自機の幅と高さを変数に
-        int[] enX = new int[10]; //隕石の座標
-        int[] enY = new int[10];
-        int[] RR = new int[10]; //隕石大きさ
+        int[] enX = new int[15]; //隕石の座標
+        int[] enY = new int[15];
+        int[] RR = new int[15]; //隕石大きさ
         int[] IMX = new int[5]; //アイテムの座標
         int[] IMY = new int[5];
         int ITM; //アイテムの半径
@@ -34,21 +33,21 @@ namespace meteogame
         int[] BMY = new int[10];
         int BMW ,BMH; //ビームの幅と高さ
         int KBW, KBH; //貫通ビームの幅と高さ
+        int kantsuCount; //貫通アイテム獲得個数カウント
 
+        // Boolean 初期値：true
         Boolean titleFlg; //true:タイトル表示中
         Boolean hitFlg; // true:当たった
         Boolean[] getFlg; //true:当たった➡ゲットした
         Boolean[] kantsuItemFlg; //true:当たった➡ゲットした
-        Boolean weakBeamFlg = false; //クリックしたらビーム発射なので最初はfalse状態にする
-        Boolean strongBeamFlg = false;
+        Boolean weakBeamFlg; //クリックしたらビーム発射なので最初はfalse状態にする
+        Boolean strongBeamFlg;
 
         int ecnt; //爆発演出用
         long msgcnt; //メッセージ用カウンタ
 
         long score; //スコア
         long highscore = 0; //ハイスコア,初回のみ0に
-        long kantsuCount;
-        
 
         Font myFont = new Font("Arial", 16);
 
@@ -89,6 +88,7 @@ namespace meteogame
         ///////////////////////////////////////////
         private void initGame()
         {
+            Console.WriteLine(weakBeamFlg);
             PW = 41; //自機の幅
             PH = 51; //自機の高さ
             ITM = 40/2;//アイテムの大きさ
@@ -99,11 +99,11 @@ namespace meteogame
             KBH = 40; //貫通ビームの高さを10
 
             //隕石大きさ・量と落ちてくる場所の指定
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 15; i++)
             {
                 enX[i] = rand.Next(1, 450); //隕石の初期配置座標
                 enY[i] = rand.Next(1, 900) - 1000; //落下の間隔にバラつきを持たせる
-                RR[i] = rand.Next(20, 50); //隕石の大きさをランダムに
+                RR[i] = rand.Next(15, 60); //隕石の大きさをランダムに
             }
 
             //アイテムの落下場所指定
@@ -120,14 +120,17 @@ namespace meteogame
                 KIY[i] = rand.Next(1, 900) - 1000;
             }
 
-            hitFlg = false; //false:当たっていない
+            //hitFlg = false; //false:当たっていない
             getFlg = new bool[] { false, false, false, false, false }; //false:ゲットしてない
             kantsuItemFlg = new bool[] { false, false, false, false, false }; //false:ゲットしてない
             ecnt = 0;
             msgcnt = 0;
             titleFlg = true; //true:タイトル表示中
+            weakBeamFlg = false;
+            //strongBeamFlg = false;
             score = 0;
-            kantsuCount = 0; //貫通アイテム獲得個数カウント
+            kantsuCount = 0;
+
         }
 
         ///////////////////////////////////////////
@@ -139,7 +142,7 @@ namespace meteogame
             gg.DrawImage(pBG.Image, 0, 0, 480, 320);
 
             //爆発後隕石をその場所に残す
-            for (int i = 0;i < 10;i++)
+            for (int i = 0;i < 15;i++)
             {
                 gg.DrawImage(pMeteor.Image, enX[i], enY[i], RR[i] * 2, RR[i] * 2);
             }
@@ -158,11 +161,13 @@ namespace meteogame
 
             if (ecnt < 16) //16フレームのアニメにする,カウンタと表示する画像の位置を決める役目
             {
-                GraphicsUnit units = GraphicsUnit.Pixel;
-                //画像の一部をずらしながら表示する
-                gg.DrawImage(pEXP.Image, Cpos.X + PW / 2 - 50, 220 + PH / 2 - 50, 
-                    new Rectangle(ecnt / 2 * 100, 0, 100, 100), units); //0,100,200~600,700と画像の位置をずらす。
-                                                                        //new Rectangle( x, y, 幅, 高さ ) で表示する位置と、切り出すサイズを指定
+                GraphicsUnit units = GraphicsUnit.Pixel;//画像の一部をずらしながら表示する
+                gg.DrawImage(pEXP.Image, Cpos.X + PW / 2 - 50, Cpos.Y + PH / 2 - 50, new Rectangle(ecnt / 2 * 100, 0, 100, 100), units);//マウスカーソル位置で爆発演出
+                
+                //gg.DrawImage(pEXP.Image, Cpos.X + PW / 2 - 50, 220 + PH / 2 - 50, 
+                //new Rectangle(ecnt / 2 * 100, 0, 100, 100), units); //0,100,200~600,700と画像の位置をずらす。
+                //new Rectangle( x, y, 幅, 高さ ) で表示する位置と、切り出すサイズを指定
+
                 ecnt++;
             }
             msgcnt++;
@@ -190,7 +195,7 @@ namespace meteogame
             if (getFlg[i])
             {
                 getFlg[i] = false;//ヒットしたアイテムのフラグを落とす
-                score += 10000; // ポイント加算
+                score += 100; // ポイント加算
                 IMX[i] = rand.Next(1, 450);// ヒットしたアイテムの座標を初期化
                 IMY[i] = rand.Next(1, 900) - 1000;
             }
@@ -217,12 +222,11 @@ namespace meteogame
             {
                 gg.DrawImage(pMsg.Image, 110, 190, 271, 26);
             }
-
             pBase.Image = canvas;
         }
 
         ///////////////////////////////////////////
-        /// サンプリング周期
+        /// タイマーイベント
         ///////////////////////////////////////////
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -256,14 +260,19 @@ namespace meteogame
 
 
             // 隕石の移動
-            for (int i = 0;i < 10;i++)
+            for (int i = 0;i < 15;i++)
             {
                 if ((RR[i]) > 30) //隕石の大きさが30以上の場合
                 {
                     enY[i] += 2; //下へ移動、大きくて遅い状態
-                }else if ((RR[i]) < 30) //隕石の大きさが30以下の場合
+                }
+                else if ((RR[i]) < 30) //隕石の大きさが30以下の場合
                 {
                     enY[i] += 4; //小さくて早い状態
+                }
+                else if ((RR[i]) < 20) //隕石の大きさが30以下の場合
+                {
+                    enY[i] += 6; //小さくて早い状態
                 }
                 gg.DrawImage(pMeteor.Image, enX[i], enY[i], RR[i] * 2, RR[i] * 2); //描画 RRは半径なので2倍にする
                 if (enY[i] > pBase.Height) //pBase.Height よりも大きいときは、隕石が画面外へ出たことになるので画面の上に戻す処理
@@ -287,7 +296,7 @@ namespace meteogame
             }
 
             //貫通アイテムの移動
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 KIY[i] += 2; //アイテム落下スペード
                 gg.DrawImage(kantsuItem.Image, KIX[i], KIY[i], KIM * 2, KIM * 2); //アイテムアイコン表示
@@ -299,32 +308,20 @@ namespace meteogame
                 }
             }
 
-            //ビームの座標位置 == プレイヤーの位置と同じ ※マウスクリックした時のみ表示させる
-            //Bpos = PointToClient(Cursor.Position); //ビームの座標位置をカーソルに合わせる
-            Bpos = PointToClient(System.Windows.Forms.Cursor.Position);
-
-            if (Bpos.X < 0)
-            {
-                Bpos.X = 0;
-            }
-            if (Bpos.Y < 0)
-            {
-                Bpos.Y = 0;
-            }
-            if (Bpos.X > ClientSize.Width - BMW)
-            {
-                Bpos.X = ClientSize.Width - BMW;
-            }
-            if (Bpos.Y > ClientSize.Width - BMH)
-            {
-                Bpos.Y = ClientSize.Width - BMH;
-            }
-
             //自機の座標位置
             //Cpos = PointToClient(Cursor.Position);
             Cpos = PointToClient(System.Windows.Forms.Cursor.Position);
-            //mx = PointToClient(System.Windows.Forms.Cursor.Position).X;
-            //my = PointToClient(System.Windows.Forms.Cursor.Position).Y;
+
+            /*
+            string screen_x = Cursor.Position.X.ToString();
+            string screen_y = Cursor.Position.Y.ToString();
+            Point client_point = this.PointToClient(Cursor.Position);
+            string client_x = client_point.X.ToString();
+            string client_y = client_point.Y.ToString();
+            Cpos = this.PointToScreen(System.Windows.Forms.Cursor.Position);
+            Cpos.X = PointToClient(System.Windows.Forms.Cursor.Position).X;
+            Cpos.Y = PointToClient(System.Windows.Forms.Cursor.Position).Y;
+            */
 
             if (Cpos.X < 0)
             {
@@ -338,13 +335,13 @@ namespace meteogame
             {
                 Cpos.X = ClientSize.Width - PW;
             }
-            if (Cpos.Y > ClientSize.Width - PH)
+            if (Cpos.Y > ClientSize.Height - PH)
             {
-                Cpos.Y = ClientSize.Width - PH;
+                Cpos.Y = ClientSize.Height - PH;
             }
 
-            gg.DrawImage(pPlayer.Image, Cpos.X, 220, PW, PH); //自機の位置表示　自機の絵, カーソルx座標、Y座標220に固定
-                                                              //gg.DrawImage(pPlayer.Image, Cpos.X, Cpos.Y, PW, PH); //自機を左右自動に移動させる
+            //gg.DrawImage(pPlayer.Image, Cpos.X, 220, PW, PH); //自機の位置表示　自機の絵, カーソルx座標、Y座標220に固定
+            gg.DrawImage(pPlayer.Image, Cpos.X, Cpos.Y, PW, PH); //自機を左右自動に移動させる
             //スコア表示
             score++;
             gg.DrawString("SCORE: " + score.ToString(), myFont, Brushes.White, 10, 10);
@@ -358,42 +355,44 @@ namespace meteogame
 
             pBase.Image = canvas;
             hitCheck(); //当たり判定
+            //Console.WriteLine(weakBeamFlg);
+            
             Beamove();
             kantsuBeamove();
         }
 
 
         ///////////////////////////////////////////
-        /// ビームの初期値
+        /// ビームの初期座標位置
         ///////////////////////////////////////////
         private void initBeam()
         {
-            weakBeam.Top = 215; //ビーム発射Y座標
-            weakBeam.Left = Bpos.X + (PW / 2) - (BMW / 2); //自機の真ん中を算出➡カーソル位置 + 自機の幅/2 - ビームの幅/2
+            weakBeam.Top = Cpos.Y;// 215; //ビーム発射Y座標
+            weakBeam.Left = Cpos.X + (PW / 2) - (BMW / 2); //自機の真ん中を算出➡カーソル位置 + 自機の幅/2 - ビームの幅/2
         }
 
         ///////////////////////////////////////////
-        /// 貫通ビームの初期値
+        /// 貫通ビームの初期座標位置
         ///////////////////////////////////////////
         private void initkantsuBeam()
         {
-            strongBeam.Top = 215; //ビーム発射Y座標
-            strongBeam.Left = Bpos.X + (PW / 2) - (KBW / 2); //自機の真ん中を算出➡カーソル位置 + 自機の幅/2 - ビームの幅/2
+            strongBeam.Top = Cpos.Y; //215; //ビーム発射Y座標
+            strongBeam.Left = Cpos.X + (PW / 2) - (KBW / 2) + 3; //自機の真ん中を算出➡カーソル位置 + 自機の幅/2 - ビームの幅/2
         }
-
 
         ///////////////////////////////////////////
         /// ビームの移動
         ///////////////////////////////////////////
         private void Beamove()
         {
+   
             //Console.WriteLine(weakBeamFlg); //デバッグ用
             weakBeam.Top -= 10; //ビーム速度
             gg.DrawImage(weakBeam.Image, new Rectangle (weakBeam.Left, weakBeam.Top, BMW, BMH));//Rectangle(int x, int y, int width, int height)
                                                                                                 //左上隅が(x, y) として指定され、幅と高さが width 引数と height 引数によって指定される新しい Rectangle を構築します。
-
+                
             if (weakBeam.Top + BMH < 0) //ビームが枠外に出たら、0より小さくなったら
-            //if (weakBeam.Top + BMH > pBase.Height)
+            //if(pBase.Height < 0)
             {
                 weakBeamFlg = false; //ビーム発射フラグをfalseに
             }
@@ -404,10 +403,10 @@ namespace meteogame
         ///////////////////////////////////////////
         private void kantsuBeamove()
         {
-            //Console.WriteLine(weakBeamFlg); //デバッグ用
+            //Console.WriteLine(strongBeamFlg + "  貫通ビームの移動　ここはtrue");
             strongBeam.Top -= 10; //ビーム速度
             gg.DrawImage(strongBeam.Image, new Rectangle(strongBeam.Left, strongBeam.Top, KBW, KBH));//Rectangle(int x, int y, int width, int height)
-                                                                                               //左上隅が(x, y) として指定され、幅と高さが width 引数と height 引数によって指定される新しい Rectangle を構築します。
+                                                                                                     //左上隅が(x, y) として指定され、幅と高さが width 引数と height 引数によって指定される新しい Rectangle を構築します。
 
             if (strongBeam.Top + KBH < 0) //ビームが枠外に出たら、0より小さくなったら
             {
@@ -416,32 +415,12 @@ namespace meteogame
         }
 
         ///////////////////////////////////////////
-        /// マウスクリック時にビーム発射フラグを立てる
-        ///////////////////////////////////////////
-        private void pBase_MouseClick(object sender, MouseEventArgs e)
-        {
-            if(weakBeam.Top + BMH < 0 && strongBeam.Top + KBH < 0)
-            {
-                if (kantsuCount < 0)
-                {
-                    initBeam(); //ビームを初期値に戻す
-                    weakBeamFlg = true; //ビーム発射フラグを立てる
-                }
-                else
-                {
-                    initkantsuBeam();
-                    strongBeamFlg = true;
-                    kantsuCount--;
-                }
-            }
-        }
-
-
-        ///////////////////////////////////////////
-        /// スペースクリック時
+        /// ペースクリック時
         ///////////////////////////////////////////
         private void pBase_Click(object sender, EventArgs e)
         {
+
+            strongBeamFlg = false;
             if (titleFlg)
             {
                 if(msgcnt > 20)
@@ -455,16 +434,35 @@ namespace meteogame
             {
                 initGame();
             }
-        }
 
+            if (weakBeam.Top + BMH < 0 && strongBeam.Top + KBH < 0)
+            {
+                if (kantsuCount == 0)
+                {
+                    initBeam(); //ビームを初期値に戻す
+                    weakBeamFlg = true; //ビーム発射フラグを立てる
+                                        //Console.WriteLine(weakBeamFlg + "pBase_Mouse==true");
+                }
+                else
+                {
+                    initkantsuBeam();
+                    strongBeamFlg = true;
+                    kantsuCount--;
+                    //Console.WriteLine(strongBeamFlg + "pBase_Mouse==true");
+                }
+            }
+            
+        }
 
         ///////////////////////////////////////////
         /// 接触判定
         ///////////////////////////////////////////
         private void hitCheck()
         {
-            int pcx = Cpos.X + (PW / 2); //自機の中心座標,マウスカーソル + 自機の幅 /2
-            int pcy = 220 + (PH / 2);    //自機の中心座標,Y座標220 + 自機の高さ /2
+            int pcx = Cpos.X + PW - 5; //(PW /2) 自機の中心座標,マウスカーソル + 自機の幅 /2 
+            int pcy = Cpos.Y + (PH / 2)+10; //220 + (PH / 2);    //自機の中心座標,Y座標220 + 自機の高さ /2
+            int pcix = Cpos.X + (PW / 2) +10; // アイテム用
+            int pczx = Cpos.Y + (PH / 2); // アイテム用
             int ecx, ecy, dis; //自機と隕石の距離計算用
             int imx, imy, toz; //自機とアイテムの距離計算用
             int kix, kiy, kiz; //自機と貫通アイテムの距離計算用
@@ -472,7 +470,7 @@ namespace meteogame
             int kmx, kmy, kmz; //貫通ビームと隕石の距離計算用
 
             //自機と隕石接触
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 15; i++)
             {
                 ecx = enX[i] + RR[i]; //隕石X座標 + 隕石の大きさ
                 ecy = enY[i] + RR[i]; //隕石Y座標 + 隕石の大きさ
@@ -489,7 +487,7 @@ namespace meteogame
             {
                 imx = IMX[i] + ITM;
                 imy = IMY[i] + ITM;
-                toz = (imx - pcx) * (imx - pcx) + (imy - pcy) * (imy - pcy); //自機とアイテムの距離を算出
+                toz = (imx - pcix) * (imx - pcix) + (imy - pczx) * (imy - pczx); //自機とアイテムの距離を算出
                 if(toz < ITM * ITM)
                 {
                     getFlg[i] = true; //true：アイテムに当たった
@@ -504,7 +502,7 @@ namespace meteogame
             {
                 kix = KIX[i] + KIM;
                 kiy = KIY[i] + KIM;
-                kiz = (kix - pcx) * (kix - pcx) + (kiy - pcy) * (kiy - pcy); //自機と貫通アイテムの距離を算出
+                kiz = (kix - pcix) * (kix - pcix) + (kiy - pczx) * (kiy - pczx); //自機と貫通アイテムの距離を算出
                 if (kiz < KIM * KIM)
                 {
                     kantsuItemFlg[i] = true; //true：アイテムに当たった
@@ -514,7 +512,7 @@ namespace meteogame
             //ビームと隕石接触
             if (weakBeamFlg)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     bmx = enX[i] + RR[i]; //隕石X座標 + 隕石の大きさ
                     bmy = enY[i] + RR[i]; //隕石Y座標 + 隕石の大きさ
@@ -522,7 +520,9 @@ namespace meteogame
                     if (bmz < RR[i] * RR[i]) //隕石とビームの距離が隕石の大きさより小さい場合(当たったとゆう解釈)
                     {
                         enY[i] += 1000;//隕石は画面から消える
-                        weakBeam.Top = -1000; //ビームが消える
+                        weakBeam.Top -= 1000; //ビームが消える
+                        score += 50;
+                        weakBeamFlg = false;
                     }
                 }
             }
@@ -530,7 +530,7 @@ namespace meteogame
             //貫通ビームと隕石接触
             if (strongBeamFlg)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     kmx = enX[i] + RR[i]; //隕石X座標 + 隕石の大きさ
                     kmy = enY[i] + RR[i]; //隕石Y座標 + 隕石の大きさ
@@ -538,6 +538,8 @@ namespace meteogame
                     if (kmz < RR[i] * RR[i]) //隕石とビームの距離が隕石の大きさより小さい場合(当たったとゆう解釈)
                     {
                         enY[i] += 1000;//隕石は画面から消える
+                        score += 50;
+                        strongBeamFlg = false;
                     }
                 }
             }

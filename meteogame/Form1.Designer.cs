@@ -59,22 +59,22 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 22;
+            this.timer1.Interval = 20;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // strongBeam
             // 
             this.strongBeam.Image = global::meteogame.Properties.Resources.貫通1;
-            this.strongBeam.Location = new System.Drawing.Point(52, 350);
+            this.strongBeam.Location = new System.Drawing.Point(25, 314);
             this.strongBeam.Name = "strongBeam";
-            this.strongBeam.Size = new System.Drawing.Size(100, 50);
+            this.strongBeam.Size = new System.Drawing.Size(84, 36);
             this.strongBeam.TabIndex = 11;
             this.strongBeam.TabStop = false;
             // 
             // kantsuItem
             // 
             this.kantsuItem.Image = global::meteogame.Properties.Resources.スターー;
-            this.kantsuItem.Location = new System.Drawing.Point(198, 350);
+            this.kantsuItem.Location = new System.Drawing.Point(268, 262);
             this.kantsuItem.Name = "kantsuItem";
             this.kantsuItem.Size = new System.Drawing.Size(100, 50);
             this.kantsuItem.TabIndex = 10;
@@ -83,16 +83,16 @@
             // weakBeam
             // 
             this.weakBeam.Image = global::meteogame.Properties.Resources.スクリーンショット_2023_08_04_1118491;
-            this.weakBeam.Location = new System.Drawing.Point(52, 267);
+            this.weakBeam.Location = new System.Drawing.Point(141, 314);
             this.weakBeam.Name = "weakBeam";
-            this.weakBeam.Size = new System.Drawing.Size(100, 50);
+            this.weakBeam.Size = new System.Drawing.Size(100, 36);
             this.weakBeam.TabIndex = 9;
             this.weakBeam.TabStop = false;
             // 
             // pItem
             // 
             this.pItem.Image = global::meteogame.Properties.Resources.タイトルなし;
-            this.pItem.Location = new System.Drawing.Point(198, 267);
+            this.pItem.Location = new System.Drawing.Point(271, 193);
             this.pItem.Name = "pItem";
             this.pItem.Size = new System.Drawing.Size(77, 63);
             this.pItem.TabIndex = 8;
@@ -146,13 +146,12 @@
             // 
             // pBase
             // 
-            this.pBase.Location = new System.Drawing.Point(0, 0);
+            this.pBase.Location = new System.Drawing.Point(-1, -1);
             this.pBase.Name = "pBase";
             this.pBase.Size = new System.Drawing.Size(242, 229);
             this.pBase.TabIndex = 2;
             this.pBase.TabStop = false;
             this.pBase.Click += new System.EventHandler(this.pBase_Click);
-            this.pBase.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pBase_MouseClick);
             // 
             // pMeteor
             // 
