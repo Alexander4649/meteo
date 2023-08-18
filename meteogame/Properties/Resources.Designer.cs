@@ -213,6 +213,16 @@ namespace meteogame.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap タイトルなし1 {
+            get {
+                object obj = ResourceManager.GetObject("タイトルなし1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap マリオのきのこ {
             get {
                 object obj = ResourceManager.GetObject("マリオのきのこ", resourceCulture);
@@ -233,9 +243,39 @@ namespace meteogame.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap 横 {
+            get {
+                object obj = ResourceManager.GetObject("横", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 炎 {
+            get {
+                object obj = ResourceManager.GetObject("炎", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap 貫通 {
             get {
                 object obj = ResourceManager.GetObject("貫通", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 貫通_横 {
+            get {
+                object obj = ResourceManager.GetObject("貫通 横", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

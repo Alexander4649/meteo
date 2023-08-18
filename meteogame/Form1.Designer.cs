@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.strongBeamyoko = new System.Windows.Forms.PictureBox();
+            this.pCPU = new System.Windows.Forms.PictureBox();
             this.strongBeam = new System.Windows.Forms.PictureBox();
             this.kantsuItem = new System.Windows.Forms.PictureBox();
             this.weakBeam = new System.Windows.Forms.PictureBox();
@@ -42,6 +44,9 @@
             this.pBase = new System.Windows.Forms.PictureBox();
             this.pMeteor = new System.Windows.Forms.PictureBox();
             this.pBG = new System.Windows.Forms.PictureBox();
+            this.CPUBeam = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.strongBeamyoko)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pCPU)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.strongBeam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kantsuItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weakBeam)).BeginInit();
@@ -54,6 +59,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pBase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pMeteor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBG)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CPUBeam)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -62,10 +68,28 @@
             this.timer1.Interval = 20;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // strongBeamyoko
+            // 
+            this.strongBeamyoko.Image = global::meteogame.Properties.Resources.横;
+            this.strongBeamyoko.Location = new System.Drawing.Point(297, -1);
+            this.strongBeamyoko.Name = "strongBeamyoko";
+            this.strongBeamyoko.Size = new System.Drawing.Size(100, 50);
+            this.strongBeamyoko.TabIndex = 14;
+            this.strongBeamyoko.TabStop = false;
+            // 
+            // pCPU
+            // 
+            this.pCPU.Image = global::meteogame.Properties.Resources.タイトルなし1;
+            this.pCPU.Location = new System.Drawing.Point(264, 318);
+            this.pCPU.Name = "pCPU";
+            this.pCPU.Size = new System.Drawing.Size(100, 50);
+            this.pCPU.TabIndex = 12;
+            this.pCPU.TabStop = false;
+            // 
             // strongBeam
             // 
             this.strongBeam.Image = global::meteogame.Properties.Resources.貫通1;
-            this.strongBeam.Location = new System.Drawing.Point(25, 314);
+            this.strongBeam.Location = new System.Drawing.Point(419, -31);
             this.strongBeam.Name = "strongBeam";
             this.strongBeam.Size = new System.Drawing.Size(84, 36);
             this.strongBeam.TabIndex = 11;
@@ -83,7 +107,7 @@
             // weakBeam
             // 
             this.weakBeam.Image = global::meteogame.Properties.Resources.スクリーンショット_2023_08_04_1118491;
-            this.weakBeam.Location = new System.Drawing.Point(141, 314);
+            this.weakBeam.Location = new System.Drawing.Point(419, -31);
             this.weakBeam.Name = "weakBeam";
             this.weakBeam.Size = new System.Drawing.Size(100, 36);
             this.weakBeam.TabIndex = 9;
@@ -129,7 +153,7 @@
             // pEXP
             // 
             this.pEXP.Image = global::meteogame.Properties.Resources.p_explosion;
-            this.pEXP.Location = new System.Drawing.Point(321, 314);
+            this.pEXP.Location = new System.Drawing.Point(328, 318);
             this.pEXP.Name = "pEXP";
             this.pEXP.Size = new System.Drawing.Size(366, 115);
             this.pEXP.TabIndex = 4;
@@ -171,11 +195,22 @@
             this.pBG.TabIndex = 0;
             this.pBG.TabStop = false;
             // 
+            // CPUBeam
+            // 
+            this.CPUBeam.Image = global::meteogame.Properties.Resources.炎;
+            this.CPUBeam.Location = new System.Drawing.Point(467, 206);
+            this.CPUBeam.Name = "CPUBeam";
+            this.CPUBeam.Size = new System.Drawing.Size(100, 50);
+            this.CPUBeam.TabIndex = 13;
+            this.CPUBeam.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 441);
+            this.Controls.Add(this.strongBeamyoko);
+            this.Controls.Add(this.pCPU);
             this.Controls.Add(this.strongBeam);
             this.Controls.Add(this.kantsuItem);
             this.Controls.Add(this.weakBeam);
@@ -188,9 +223,12 @@
             this.Controls.Add(this.pBase);
             this.Controls.Add(this.pMeteor);
             this.Controls.Add(this.pBG);
+            this.Controls.Add(this.CPUBeam);
             this.Name = "Form1";
             this.Text = "メテオ";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.strongBeamyoko)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pCPU)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.strongBeam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kantsuItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weakBeam)).EndInit();
@@ -203,6 +241,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pBase)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pMeteor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBG)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CPUBeam)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -222,6 +261,9 @@
         private System.Windows.Forms.PictureBox weakBeam;
         private System.Windows.Forms.PictureBox kantsuItem;
         private System.Windows.Forms.PictureBox strongBeam;
+        private System.Windows.Forms.PictureBox pCPU;
+        private System.Windows.Forms.PictureBox CPUBeam;
+        private System.Windows.Forms.PictureBox strongBeamyoko;
     }
 }
 
