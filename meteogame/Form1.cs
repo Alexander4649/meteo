@@ -20,7 +20,6 @@ namespace meteogame
 
         Point Cpos;              //カーソル座標
         int PW, PH;              //自機の幅と高さ
-        //int CW, CH;
 
         //隕石設定
         int[] enX = new int[10]; //隕石のX座標
@@ -42,15 +41,13 @@ namespace meteogame
         int[] KIY = new int[5]; //貫通アイテムのY座標
         int KIM;                //貫通アイテムの半径
         int KBW, KBH;           //貫通ビームの幅と高さ
-        int kantsuCount;        //貫通アイテム獲得個数カウント
 
         //CPU設定
         int CPU, CPUX , CPUY;   //CPUの大きさ、X、Y座標
         int CPBX, CPBY;         //CPUビームのX、Y座標
         int CPBW, CPBH;         //CPUビームの幅、高さ
-        int CPUB;
+        int CPUB;               //CPUビームの大きさ
         int CPmove = +2;        //CPUの左右移動
-
 
         // Boolean 初期値：false
         Boolean titleFlg;        //true:タイトル表示中
@@ -62,10 +59,11 @@ namespace meteogame
         Boolean strongBeamFlg;
         Boolean GameoverFlg;
 
-        int ecnt;                //爆発演出用
-        long msgcnt;             //メッセージ用カウンタ
-        long score;              //スコア
-        long highscore;          //ハイスコア,初回のみ0に
+        int ecnt;               //爆発演出用
+        long msgcnt;            //メッセージ用カウンタ
+        long score;             //スコア
+        long highscore;         //ハイスコア,初回のみ0に
+        int kantsuCount;        //貫通アイテム獲得個数カウント
 
         Font myFont = new Font("Arial", 16);
 
@@ -98,10 +96,10 @@ namespace meteogame
             pMsg.Hide();
             pTitle.Hide();
 
-            pBase.Width = ClientSize.Width; //pBaseをフォームのクライアント領域と同じに　幅
+            pBase.Width = ClientSize.Width;   //pBaseをフォームのクライアント領域と同じに　幅
             pBase.Height = ClientSize.Height; //pBaseをフォームのクライアント領域と同じに　高さ
 
-            initGame(); //初期処理
+            initGame();
         }
 
         ///////////////////////////////////////////
@@ -109,22 +107,22 @@ namespace meteogame
         ///////////////////////////////////////////
         private void initGame()
         {
-            PW = 41; //自機の幅
-            PH = 51; //自機の高さ
-            ITM = 40 / 2;//アイテムの大きさ
-            KIM = 40 / 2;//貫通アイテムの大きさ
-            BMW = 20; //ビームの幅を20
-            BMH = 20; //ビームの高さを10
-            KBW = 40; //貫通ビームの幅を20
-            KBH = 40; //貫通ビームの高さを10
-            CPU = 80 / 2;//CPUの大きさ
-            CPUX = pCPU.Left;
-            CPUY = pCPU.Width - 55;
-            CPBW = 50; //CPUビームの幅
-            CPBH = 50; //CPUビームの高さ
-            CPBX = 50;
-            CPBY = 80;
-            CPUB = 80 / 2;
+            PW = 41;                //自機の幅
+            PH = 51;                //自機の高さ
+            ITM = 40 / 2;           //アイテムの大きさ
+            KIM = 40 / 2;           //貫通アイテムの大きさ
+            BMW = 20;               //ビームの幅を20
+            BMH = 20;               //ビームの高さを10
+            KBW = 40;               //貫通ビームの幅を20
+            KBH = 40;               //貫通ビームの高さを10
+            CPU = 80 / 2;           //CPUの大きさ
+            CPUX = pCPU.Left;       //CPUのX座標
+            CPUY = pCPU.Width - 55; //CPUのY座標
+            CPBW = 50;              //CPUビームの幅
+            CPBH = 50;              //CPUビームの高さ
+            CPBX = 50;              //CPUビームのX座標
+            CPBY = 80;              //CPUビームのY座標
+            CPUB = 80 / 2;          //CPUビームの大きさ
 
             //隕石大きさ・量と落ちてくる場所の指定
             for (int i = 0; i < 10; i++)
@@ -147,16 +145,6 @@ namespace meteogame
                 KIX[i] = rand.Next(1, 450);
                 KIY[i] = rand.Next(1, 900) - 1000;
             }
-
-            /*
-            //CPUビームの落下場所指定
-            for (int i = 0; i < 5; i++)
-            {
-                CPUBeam.Top = CH;                              //ビーム発射Y座標
-                CPUBeam.Left = CW + CH + (CW / 2) - (CPW / 2); //自機の真ん中を算出➡ + 自機の幅/2 - ビームの幅/2
-                gg.DrawImage(CPUBeam.Image, new Rectangle(CPUBeam.Left, CPUBeam.Top, CPW, CPH));
-            }
-            */
 
             hitFlg = false;
             titleFlg = true;
@@ -190,7 +178,7 @@ namespace meteogame
             {
                 initGame();
             }
-                
+
             if (titleFlg == false)
             {
                 if (weakBeam.Top + BMH < 0 && strongBeam.Top + KBH < 0)
@@ -208,7 +196,6 @@ namespace meteogame
                     }
                 }
             }
-
         }
 
         ///////////////////////////////////////////
@@ -281,7 +268,7 @@ namespace meteogame
         {
             if (getFlg[i])
             {
-                getFlg[i] = false;                //ヒットしたアイテムのフラグを落とす
+                getFlg[i] = false;                // ヒットしたアイテムのフラグを落とす
                 score += 5000;                    // ポイント加算
                 IMX[i] = rand.Next(1, 450);       // ヒットしたアイテムの座標を初期化
                 IMY[i] = rand.Next(1, 900) - 1000;
@@ -350,7 +337,7 @@ namespace meteogame
             gg.DrawImage(pBG.Image, 0, 0, 480, 320);
 
             // 隕石の移動
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if ((RR[i]) > 30) //隕石の大きさが30以上の場合
                 {
@@ -395,21 +382,7 @@ namespace meteogame
             }
 
             //自機の座標位置
-            //Cpos = PointToClient(Cursor.Position);
-            //Cpos = PointToClient(System.Windows.Forms.Cursor.Position);
-            Cpos = this.PointToClient(Cursor.Position);
-
-
-            /*
-            string screen_x = Cursor.Position.X.ToString();
-            string screen_y = Cursor.Position.Y.ToString();
-           
-            string client_x = client_point.X.ToString();
-            string client_y = client_point.Y.ToString();
-            Cpos = this.PointToScreen(System.Windows.Forms.Cursor.Position);
-            Cpos.X = PointToClient(System.Windows.Forms.Cursor.Position).X;
-            Cpos.Y = PointToClient(System.Windows.Forms.Cursor.Position).Y;
-            */
+            Cpos = PointToClient(System.Windows.Forms.Cursor.Position);
 
             if (Cpos.X < 0)
             {
@@ -478,7 +451,7 @@ namespace meteogame
             }
 
             //スコアが10000超えたらCPU登場
-            if (score > 100)
+            if (score > 500)
             {
                 CPUmove();
                 CPUAttack();
@@ -544,15 +517,15 @@ namespace meteogame
         private void CPUmove()
         {
             gg.DrawImage(pCPU.Image, CPUX, CPUY, CPU * 2, CPU * 2); //CPU登場位置
-            CPUX += CPmove;  //CPUをCPmoveだけ動かす
+            CPUX += CPmove;                                         //CPUをCPmoveだけ動かす
 
-            if (CPUX < 15)  //CPUの左端が、フォームの左端から-15に当たった時
+            if (CPUX < 15)                                          //CPUの左端が、フォームの左端から-15に当たった時
             {
-                CPmove = +2;  //進行方向を右へ+2にする
+                CPmove = +2;                                        //進行方向を右へ+2にする
             }
-            if (CPUX + 50 + CPUY > ClientSize.Width)  //CPUの右端が、フォームの右端に当たった時
+            if (CPUX + 50 + CPUY > ClientSize.Width)                //CPUの右端が、フォームの右端に当たった時
             {
-                CPmove = -2;  //進行方向を左へ-2にする
+                CPmove = -2;                                        //進行方向を左へ-2にする
             }
         }
 
@@ -608,7 +581,7 @@ namespace meteogame
                 }
             }
 
-            //自機とCPUの接触
+            //自機とCPU・CPUビームとの接触
             if (score > 100)
             {
                 cpx = CPUX + CPU; //CPUのX座標 + CPU大きさ
@@ -624,8 +597,6 @@ namespace meteogame
                 }
             }
 
-
-
             //自機とアイテム接触
             for (int i = 0; i < 5; i++)
             {
@@ -637,10 +608,6 @@ namespace meteogame
                     getFlg[i] = true; //true：アイテムに当たった   
                 }
             }
-
-            //フラグを使わなくてもアイテム獲得演出は表現できる↓2行
-            //IMY[i] += 10000; //アイテムのY座標を規格外数値にして枠外に出して初期化する(アイテム取得風に見せれる)
-            //score += 5000; //スコア加算
 
             //自機と貫通アイテム接触
             for (int i = 0; i < 5; i++)
@@ -693,3 +660,20 @@ namespace meteogame
         }
     }
 }
+
+/*
+            Cpos = this.PointToClient(Cursor.Position);
+            Cpos = PointToClient(Cursor.Position);
+            string screen_x = Cursor.Position.X.ToString();
+            string screen_y = Cursor.Position.Y.ToString();
+            string client_x = client_point.X.ToString();
+            string client_y = client_point.Y.ToString();
+            Cpos = this.PointToScreen(System.Windows.Forms.Cursor.Position);
+            Cpos.X = PointToClient(System.Windows.Forms.Cursor.Position).X;
+            Cpos.Y = PointToClient(System.Windows.Forms.Cursor.Position).Y;
+
+
+            フラグを使わなくてもアイテム獲得演出は表現できる↓2行
+            IMY[i] += 10000; //アイテムのY座標を規格外数値にして枠外に出して初期化する(アイテム取得風に見せれる)
+            score += 5000; //スコア加算
+*/

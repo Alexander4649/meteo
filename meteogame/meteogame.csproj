@@ -140,5 +140,26 @@
   <ItemGroup>
     <None Include="Resources\横.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビックバン.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビッグバン緑.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビッグバン緑1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビッグバン緑2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビッグバン緑3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビッグバン１.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ビッグバン緑-6種.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

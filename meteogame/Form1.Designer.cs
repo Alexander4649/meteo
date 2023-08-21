@@ -89,7 +89,7 @@
             // strongBeam
             // 
             this.strongBeam.Image = global::meteogame.Properties.Resources.貫通1;
-            this.strongBeam.Location = new System.Drawing.Point(419, -31);
+            this.strongBeam.Location = new System.Drawing.Point(33, -36);
             this.strongBeam.Name = "strongBeam";
             this.strongBeam.Size = new System.Drawing.Size(84, 36);
             this.strongBeam.TabIndex = 11;
@@ -107,7 +107,7 @@
             // weakBeam
             // 
             this.weakBeam.Image = global::meteogame.Properties.Resources.スクリーンショット_2023_08_04_1118491;
-            this.weakBeam.Location = new System.Drawing.Point(419, -31);
+            this.weakBeam.Location = new System.Drawing.Point(119, -36);
             this.weakBeam.Name = "weakBeam";
             this.weakBeam.Size = new System.Drawing.Size(100, 36);
             this.weakBeam.TabIndex = 9;
